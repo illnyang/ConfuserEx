@@ -4,6 +4,10 @@
   <PropertyGroup Label="Assembly Settings">
     <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+  </PropertyGroup>
 
   <PropertyGroup Label="Assembly Information">
     <Title>ConfuserEx Protections</Title>
@@ -32,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Project Dependencies">
+    <ProjectReference Include="..\Confuser.Core.Exports\Confuser.Core.Exports.csproj" />
     <ProjectReference Include="..\Confuser.DynCipher\Confuser.DynCipher.csproj" />
     <ProjectReference Include="..\Confuser.Helpers\Confuser.Helpers.csproj" />
     <ProjectReference Include="..\Confuser.Protections.Exports\Confuser.Protections.Exports.csproj" />

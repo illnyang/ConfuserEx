@@ -51,6 +51,9 @@ namespace Confuser.Core.Services {
 					proj.ProbePaths.Add(path);
 				proj.ProbePaths.Add(context.Project.BaseDirectory);
 
+				foreach (var path in context.Project.PluginPaths)
+					proj.PluginPaths.Add(path);
+
 				PluginDiscovery discovery = null;
 				if (prot != null) {
 					var protectionId = prot

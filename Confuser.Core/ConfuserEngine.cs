@@ -337,34 +337,6 @@ namespace Confuser.Core {
 				if (!marker.IsMarked(context, cctor))
 					marker.Mark(context, cctor, null);
 			}
-
-			logger.LogDebug("Watermarking...");
-			foreach (var module in context.Modules) {
-				var attrRef = module.CorLibTypes.GetTypeRef("System", "Attribute");
-				var attrType = new TypeDefUser("", "ConfusedByAttribute", attrRef);
-				module.Types.Add(attrType);
-				marker.Mark(context, attrType, null);
-
-				var ctor = new MethodDefUser(
-					".ctor",
-					MethodSig.CreateInstance(module.CorLibTypes.Void, module.CorLibTypes.String),
-					MethodImplAttributes.Managed,
-					MethodAttributes.HideBySig | MethodAttributes.Public | MethodAttributes.SpecialName |
-					MethodAttributes.RTSpecialName);
-				ctor.Body = new CilBody();
-				ctor.Body.MaxStack = 1;
-				ctor.Body.Instructions.Add(OpCodes.Ldarg_0.ToInstruction());
-				ctor.Body.Instructions.Add(OpCodes.Call.ToInstruction(new MemberRefUser(module, ".ctor",
-					MethodSig.CreateInstance(module.CorLibTypes.Void), attrRef)));
-				ctor.Body.Instructions.Add(OpCodes.Ret.ToInstruction());
-				attrType.Methods.Add(ctor);
-				marker.Mark(context, ctor, null);
-
-				var attr = new CustomAttribute(ctor);
-				attr.ConstructorArguments.Add(new CAArgument(module.CorLibTypes.String, Version));
-
-				module.CustomAttributes.Add(attr);
-			}
 		}
 
 		private static void CopyPEHeaders(PEHeadersOptions writerOptions, ModuleDefMD module) {
